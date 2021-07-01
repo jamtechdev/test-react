@@ -1,25 +1,35 @@
-import logo from './logo.svg';
 import './App.css';
+import Header from "./components/Header"
+import InnerSection from './components/InnerSection';
+import Slider from './components/Slider';
+import Footer from './components/Footer';
+import jobsService from "./services/jobs.service";
+import {useEffect} from "react";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    let jobList;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    function _fetch() {
+        jobsService.getJobs().then(({data: {jobs}}) => {
+            jobList = jobs;
+            console.log(jobList);
+        });
+    }
+    useEffect(() => {
+        _fetch();
+    }, [_fetch, jobList])
+
+    return (
+        <div>
+            <Header/>
+            {jobList && jobList.length ?
+                (<InnerSection jobs={jobList}/>) :
+                (<p>Loading...</p>)
+            }
+            <Slider/>
+            <Footer/>
+        </div>
+    );
 }
 
 export default App;
