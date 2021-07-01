@@ -22,10 +22,7 @@ function App() {
     return (
         <div>
             <Header/>
-            {jobList && jobList.length ?
-                (<InnerSection jobs={jobList}/>) :
-                (<p>Loading...</p>)
-            }
+            <InnerSection jobs={jobList}/>
             <Slider/>
             <Footer/>
         </div>
